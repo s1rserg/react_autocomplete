@@ -18,7 +18,9 @@ export const Autocomplete: React.FC<Props> = ({
   const [appliedQuery, setAppliedQuery] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const applyQuery = useCallback(debounce(setAppliedQuery, debounceDelay), []);
+  const applyQuery = useCallback(debounce(setAppliedQuery, debounceDelay), [
+    debounceDelay,
+  ]);
 
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
