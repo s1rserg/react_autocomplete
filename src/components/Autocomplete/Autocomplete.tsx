@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Person } from '../../types/Person';
 import debounce from 'lodash.debounce';
 
@@ -18,14 +18,15 @@ export const Autocomplete: React.FC<Props> = ({
   const [appliedQuery, setAppliedQuery] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const applyQuery = useCallback(debounce(setAppliedQuery, debounceDelay), [
-    debounceDelay,
-  ]);
+  const debouncedSetAppliedQuery = useMemo(
+    () => debounce(setAppliedQuery, debounceDelay),
+    [debounceDelay],
+  );
 
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
     onSelected(null);
-    applyQuery(event.target.value);
+    debouncedSetAppliedQuery(event.target.value);
   };
 
   const containerRef = useRef<HTMLDivElement>(null);
